@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bisect": "github:zhoulytwinyu/bisect-js#v0.1.0",
+    "memoize": "github:zhoulytwinyu/memoize#v0.1.0",
+    "plot-utils": "github:zhoulytwinyu/plot-utils#v0.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
