@@ -23,8 +23,7 @@ function generateData(minX,maxX,period) {
   return data;
 }
 
-const DATA = {minute:generateData(0,365*24*3600*1000,60*1000),
-              hour:generateData(0,365*24*3600*1000,60*60*1000),
+const DATA = {hour:generateData(0,365*24*3600*1000,60*60*1000),
               day:generateData(0,365*24*3600*1000,24*60*60*1000),
               week:generateData(0,365*24*3600*1000,7*24*60*60*1000),
               };
@@ -63,13 +62,19 @@ class App extends Component {
           </div>
           <div>
             minX
-            <input  type="range" min={0} max={maxX} value={minX}
+            <input  type="range" min={0} max={maxX-1} step={3600*1000} value={minX}
                     onChange={ ev=>this.setState({minX:Number.parseInt(ev.target.value)}) }/>
           </div>
           <div>
             maxX
-            <input  type="range" min={minX} max={365*24*3600*1000} value={maxX}
+            <input  type="range" min={minX+1} max={365*24*3600*1000} step={3600*1000} value={maxX}
                     onChange={ ev=>this.setState({maxX:Number.parseInt(ev.target.value)}) }/>
+          </div>
+          <div>
+            maxX-minX
+            <div>
+            { (maxX-minX)/1000/3600/24 } days
+            </div>
           </div>
           <div>
             minY
@@ -81,18 +86,6 @@ class App extends Component {
             <input  type="range" min={minY} max={200} value={maxY}
                     onChange={ ev=>this.setState({maxY:Number.parseInt(ev.target.value)}) }/>
           </div>
-          {/*
-          <div>
-            data
-            Select bin size
-            <select value={data_} onChange={ ev=>this.setState({data_:ev.target.value}) }>
-              <option value="minute">minute</option>
-              <option value="hour">hour</option>
-              <option value="day">day</option>
-              <option value="week">week</option>
-            </select>
-          </div>
-          */}
         </fieldset>
         <fieldset>
           <legend>Results</legend>
@@ -102,21 +95,8 @@ class App extends Component {
                       maxX={maxX}
                       minY={minY}
                       maxY={maxY}
-                      data={DATA["week"]}/>
-          <BoxBinPlot width={width}
-                      height={height}
-                      minX={minX}
-                      maxX={maxX}
-                      minY={minY}
-                      maxY={maxY}
-                      data={DATA["day"]}/>
-          <BoxBinPlot width={width}
-                      height={height}
-                      minX={minX}
-                      maxX={maxX}
-                      minY={minY}
-                      maxY={maxY}
-                      data={DATA["hour"]}/>
+                      data={DATA}
+                      />
         </fieldset>
       </>
     );

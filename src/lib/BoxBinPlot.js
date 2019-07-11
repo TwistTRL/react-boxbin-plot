@@ -17,7 +17,17 @@ const YRANGE_LUT = {
   "120-200": {from:120, to:200},
   };
 
-const LINEAR_GRADIENT = new LinearGradient([{x:0,r:255,g:255,b:255},{x:100,r:0,g:0,b:0}])
+const YRANGES = Object.keys(YRANGE_LUT);
+
+const SPAN_LUT = {
+  "hour": 3600*1000,
+  "day": 24*3600*1000,
+  "week": 7*24*3600*1000,
+  };
+
+const RESOLUTIONS = Object.keys(SPAN_LUT);
+
+const LINEAR_GRADIENT = new LinearGradient([{x:0,r:255,g:0,b:0},{x:100,r:255,g:255,b:0}])
 
 class BoxBinPlot extends PureComponent {
   constructor(props){
@@ -45,52 +55,70 @@ class BoxBinPlot extends PureComponent {
           minX,maxX,
           minY,maxY,
           data} = this.props;
-    let dataInRange = this.getDataInRange(data,minX,maxX);
-    console.log(dataInRange);
+    let gridCells = this.getGridCells(data);
+    let resolution = this.getResolution(width,minX,maxX);
+    console.log(resolution);
     // Clear plot
     let canvas = this.ref.current;
     let ctx = canvas.getContext("2d");
     ctx.clearRect(0,0,width,height);
     // Draw
-    for (let row of dataInRange){
-      let startX = row.from;
-      let endX = row.to;
+    for (let cell of gridCells[resolution]){
+      let {startX,endX,startY,endY,color} = cell;
+      if (endX<=minX || startX>=maxX) {
+        continue;
+      }
       let startDomX = Math.round(toDomXCoord_Linear(width,minX,maxX,startX));
       let endDomX = Math.round(toDomXCoord_Linear(width,minX,maxX,endX));
-      for (let key of Object.keys(YRANGE_LUT)){
-        let startY = YRANGE_LUT[key]["from"];
-        let endY = YRANGE_LUT[key]["to"];
-        let startDomY = Math.round(toDomYCoord_Linear(height,minY,maxY,endY));
-        let endDomY = Math.round(toDomYCoord_Linear(height,minY,maxY,startY));
-        let count = row[key];
-        let rgb = LINEAR_GRADIENT.getRGB(count);
-        let color = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
-        ctx.fillStyle = color;
-        ctx.fillRect(startDomX,startDomY,endDomX-startDomX,endDomY-startDomY);
-      }
+      let startDomY = Math.round(toDomXCoord_Linear(height,minY,maxY,endY));
+      let endDomY = Math.round(toDomXCoord_Linear(height,minY,maxY,startY));
+      ctx.fillStyle = color;
+      ctx.fillRect(startDomX,startDomY,endDomX-startDomX,endDomY-startDomY);
     }
   }
 
-  getDataInRange = memoize_one( (data,minX,maxX)=>{
-    let sortedData = this.getSortedData(data);
-    let sortedFrom = this.getSortedFrom(sortedData);
-    let sortedTo = this.getSortedTo(sortedData);
-    let leftIdx = bisect_right(sortedFrom,minX);
-    let rightIdx = bisect_left(sortedTo,maxX);
-    return sortedData.slice(leftIdx,rightIdx+1);
+  getGridCells = memoize_one( (data)=>{
+    let grids = { hour:[],
+                  day:[],
+                  week:[]
+                  };
+    for (let resolution of RESOLUTIONS) {
+      for (let column of data[resolution]) {
+        let startX = column["from"];
+        let endX = column["to"];
+        for (let row of YRANGES) {
+          let count = column[row];
+          let color = this.getColor(count);
+          let yRange = YRANGE_LUT[row];
+          let startY = yRange["from"];
+          let endY = yRange["to"];
+          grids[resolution].push({startX,endX,startY,endY,color});
+        }
+      }
+    }
+    return grids;
   });
 
-  getSortedData = memoize_one( (data)=>{
-    return data.sort( (a,b)=>a.from-b.from );
-  });
+  getColor(count){
+    let {r,g,b} = LINEAR_GRADIENT.getRGB(count);
+    return `rgb(${r},${g},${b})`;
+  }
 
-  getSortedFrom = memoize_one( (sortedData)=>{
-    return sortedData.map( ({from})=>from );
-  });
-  
-  getSortedTo = memoize_one( (sortedData)=>{
-    return sortedData.map( ({to})=>to );
-  });
+  getResolution(width,minX,maxX){
+    let targetCellWidth = 50;
+    let curMinDiff=Infinity;
+    let curRes=null;
+    for (let resolution of RESOLUTIONS) {
+      let span = SPAN_LUT[resolution];
+      let cellWidth = width/(maxX-minX)*span;
+      let diffWidth = Math.abs(targetCellWidth-cellWidth);
+      if (diffWidth<curMinDiff) {
+        curMinDiff = diffWidth;
+        curRes = resolution;
+      }
+    }
+    return curRes;
+  }
 }
 
 BoxBinPlot.propTypes = {
