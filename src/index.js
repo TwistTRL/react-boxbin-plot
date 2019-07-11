@@ -71,9 +71,9 @@ class App extends Component {
                     onChange={ ev=>this.setState({maxX:Number.parseInt(ev.target.value)}) }/>
           </div>
           <div>
-            maxX-minX
+            Viewing Range
             <div>
-            { (maxX-minX)/1000/3600/24 } days
+              { ((maxX-minX)/1000/3600/24).toFixed(1) } days
             </div>
           </div>
           <div>
