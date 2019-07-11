@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a04b9b433145f36413bc87350880347a",
+    "revision": "6d1cf74f048d4d7f22d4b41d059cf033",
     "url": "/react-boxbin-plot/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-boxbin-plot/static/js/2.083d4780.chunk.js"
   },
   {
-    "revision": "e239158b50634c7febb2",
-    "url": "/react-boxbin-plot/static/js/main.a3a5d5fb.chunk.js"
+    "revision": "90fe73c9928c73721f70",
+    "url": "/react-boxbin-plot/static/js/main.17cf737b.chunk.js"
   },
   {
     "revision": "16b94b46d5c711be18c0",

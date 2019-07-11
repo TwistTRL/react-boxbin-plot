@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/react-boxbin-plot/static/js/main.a3a5d5fb.chunk.js",
-    "main.js.map": "/react-boxbin-plot/static/js/main.a3a5d5fb.chunk.js.map",
+    "main.js": "/react-boxbin-plot/static/js/main.17cf737b.chunk.js",
+    "main.js.map": "/react-boxbin-plot/static/js/main.17cf737b.chunk.js.map",
     "runtime~main.js": "/react-boxbin-plot/static/js/runtime~main.b086631f.js",
     "runtime~main.js.map": "/react-boxbin-plot/static/js/runtime~main.b086631f.js.map",
     "static/js/2.083d4780.chunk.js": "/react-boxbin-plot/static/js/2.083d4780.chunk.js",
     "static/js/2.083d4780.chunk.js.map": "/react-boxbin-plot/static/js/2.083d4780.chunk.js.map",
     "index.html": "/react-boxbin-plot/index.html",
-    "precache-manifest.cc32a1aa617256ff903613394b479ad6.js": "/react-boxbin-plot/precache-manifest.cc32a1aa617256ff903613394b479ad6.js",
+    "precache-manifest.1e3be9a1e8a4cc5bc76a4e047747d4dd.js": "/react-boxbin-plot/precache-manifest.1e3be9a1e8a4cc5bc76a4e047747d4dd.js",
     "service-worker.js": "/react-boxbin-plot/service-worker.js"
   }
 }
