@@ -70,8 +70,8 @@ class BoxBinPlot extends PureComponent {
       }
       let startDomX = Math.round(toDomXCoord_Linear(width,minX,maxX,startX));
       let endDomX = Math.round(toDomXCoord_Linear(width,minX,maxX,endX));
-      let startDomY = Math.round(toDomXCoord_Linear(height,minY,maxY,endY));
-      let endDomY = Math.round(toDomXCoord_Linear(height,minY,maxY,startY));
+      let startDomY = Math.round(toDomYCoord_Linear(height,minY,maxY,endY));
+      let endDomY = Math.round(toDomYCoord_Linear(height,minY,maxY,startY));
       ctx.fillStyle = color;
       ctx.fillRect(startDomX,startDomY,endDomX-startDomX,endDomY-startDomY);
     }
