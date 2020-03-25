@@ -8,7 +8,7 @@
   "dependencies": {
     "bisect": "github:zhoulytwinyu/bisect-js#v0.1.0",
     "memoize": "github:zhoulytwinyu/memoize#v0.1.0",
-    "plot-utils": "github:zhoulytwinyu/plot-utils#v0.1.0"
+    "plot-utils": "github:TwistTRL/plot-utils"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
